@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 2 - All CSS Topics</title>
+  <style>
+    /* Global & Card Layout */
+    :root {
+      --main-color: #1967d2;
+      --bg-color: #f1f3f4;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      margin: 0;
+      padding: 0;
+      color: #202124;
+    }
+
+    header {
+      background-color: var(--main-color);
+      color: white;
+      text-align: center;
+      padding: 28px 16px;
+      margin-bottom: 24px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 16px 40px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+
+    /* 1. Cascade - Last Rule Wins */
+    .cascade-text { color: red; }
+    .cascade-text { color: blue; }
+
+    /* 2. Specificity - ID Wins */
+    #spec-id { color: blue; }
+    .spec-class { color: green; }
+    p.spec-class { color: orange; }
+
+    /* 3. Inheritance - Parent to Child */
+    .parent-box {
+      color: #b3261e;
+    }
+
+    /* 4. Box Model */
+    .box-model-demo {
+      display: inline-block;
+      background-color: #ffe885;
+      padding: 20px;
+      border: 4px solid black;
+      margin: 12px 0 0 12px;
+      font-size: 14px;
+    }
+
+    /* 5. Flexbox - One Row */
+    .flex-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8f9fa;
+      padding: 12px 16px;
+      border-radius: 6px;
+    }
+
+    /* 6. Grid - Gallery */
+    .grid-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .grid-item {
+      background: #e8f0fe;
+      padding: 20px;
+      text-align: center;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    /* 7. Media Query */
+    .responsive-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .responsive-layout > div {
+      background: #e6f4ea;
+      padding: 16px;
+      border-radius: 6px;
+    }
+    @media (min-width: 768px) {
+      .responsive-layout {
+        grid-template-columns: 2fr 1fr;
+      }
+    }
+
+    /* 8. Fluid Typography - clamp() */
+    .fluid-text {
+      font-size: clamp(1.2rem, 3vw, 2.2rem);
+      margin: 8px 0;
+    }
+
+    /* 9. Custom Property - Variable */
+    .var-btn {
+      background-color: var(--main-color);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* 10. Container Query */
+    .cq-wrapper {
+      container-type: inline-size;
+      border: 1px dashed #ccc;
+      padding: 12px;
+    }
+    .cq-card {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    @container (min-width: 350px) {
+      .cq-card {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+
+    /* 11. :has() Selector */
+    .has-demo-wrapper {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .has-box {
+      border: 2px solid #dadce0;
+      padding: 12px;
+      border-radius: 6px;
+      width: 200px;
+    }
+    .has-box:has(img) {
+      border: 3px solid #202124;
+    }
+
+    /* 12. Logical Property */
+    .logical-box {
+      background: #f8f9fa;
+      padding-inline-start: 32px;
+      border-inline-start: 4px solid var(--main-color);
+      padding-block: 10px;
+    }
+
+    /* 13. Nesting + Hover */
+    .nest-box {
+      padding: 16px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      transition: box-shadow 0.2s;
+      & h3 { margin: 0 0 6px; }
+      &:hover {
+        box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+      }
+    }
+
+    /* 14. Transition */
+    .transition-btn {
+      background: #1a73e8;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      transition: background-color 0.6s ease, transform 0.6s ease;
+    }
+    .transition-btn:hover {
+      background: #d93025;
+      transform: scale(1.05);
+    }
+
+    /* 15. Animation */
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .spinner {
+      display: inline-block;
+      padding: 12px 16px;
+      background: #fef7e0;
+      border: 2px solid #f9ab00;
+      border-radius: 6px;
+      animation: spin 4s linear infinite;
+    }
+
+    /* 17. BEM */
+    .bem-card {
+      border: 1px solid #dadce0;
+      padding: 16px;
+      border-radius: 6px;
+    }
+    .bem-card--big {
+      background: #f8f9fa;
+    }
+    .bem-card__title {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    /* 18. Accessibility - Focus */
+    .focus-btn {
+      padding: 10px 16px;
+      font-size: 14px;
+    }
+    .focus-btn:focus-visible {
+      outline: 3px solid orange;
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Module 2 - Advanced CSS - All Topics in One Page</h1>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>1. Cascade - Last Rule Wins</h2>
+      <p class="cascade-text">This text will be in Blue</p>
+    </section>
+
+    <section class="card">
+      <h2>2. Specificity - ID Wins</h2>
+      <p id="spec-id" class="spec-class">This text is Blue - ID has more power</p>
+    </section>
+
+    <section class="card parent-box">
+      <h2>3. Inheritance - Parent to Child</h2>
+      <p>This p will also be in red color</p>
+    </section>
+
+    <section class="card">
+      <h2>4. Box Model</h2>
+      <div class="box-model-demo">
+        Content + Padding +<br>Border + Margin
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>5. Flexbox - One Row</h2>
+      <div class="flex-row">
+        <em>Logo</em>
+        <div>
+          <button>Login</button>
+          <button>SignUp</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>6. Grid - Gallery</h2>
+      <div class="grid-gallery">
+        <div class="grid-item">Card 1</div>
+        <div class="grid-

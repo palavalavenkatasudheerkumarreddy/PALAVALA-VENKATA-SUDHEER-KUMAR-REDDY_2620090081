@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 8 - Modern CSS</title>
+    <style>
+        * { box-sizing: border-box; }
+        .card {
+            display: block;
+            padding: 1rem;
+            border: 1px solid #888;
+            border-radius: 8px;
+            margin-inline-start: 1rem;
+            margin-inline-end: 1rem;
+            gap: 1rem;
+        }
+        .card:has(input:checked) {
+            background: lightgreen;
+        }
+        .wrapper {
+            container-type: inline-size;
+            max-width: 600px;
+            border: 1px dashed #666;
+            padding: 0.5rem;
+        }
+        @container (min-width: 400px) {
+            .card {
+                display: flex;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>a) :has() Checkbox Card</h2>
+    <label class="card">
+        <input type="checkbox">
+        <span>Mark task as completed</span>
+    </label>
+
+    <h2>b &amp; c) Logical Properties + Container Query</h2>
+    <div class="wrapper">
+        <div class="card">
+            <div class="card-media">Media</div>
+            <div class="card-body">Adapts to parent width (&ge; 400px) and reading direction.</div>
+        </div>
+    </div>
+</body>
+</html>
