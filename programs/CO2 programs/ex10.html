@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Responsive Dashboard</title>
+    <style>
+        :root {
+            --bg: #f5f7fb;
+            --surface: #ffffff;
+            --text: #18202c;
+            --accent: #3b5bdb;
+            --border: #dce2ec;
+            --space: 1rem;
+            --radius: 10px;
+        }
+        .dark {
+            --bg: #12151c;
+            --surface: #1e2430;
+            --text: #f1f5f9;
+            --accent: #748ffc;
+            --border: #2f384a;
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: system-ui, sans-serif;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            grid-template-areas:
+                "header header"
+                "sidebar main";
+            min-height: 100vh;
+        }
+        .dashboard__header {
+            grid-area: header;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--space);
+            padding: var(--space);
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+        }
+        .dashboard__logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+        .dashboard__controls {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .dashboard__search {
+            padding: 0.45rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg);
+            color: var(--text);
+        }
+        .dashboard__search:focus-visible {
+            outline: 3px solid gold;
+            outline-offset: 2px;
+        }
+        .dashboard__theme-btn {
+            padding: 0.45rem 0.85rem;
+            border: none;
+            border-radius: var(--radius);
+            background: var(--accent);
+            color: #fff;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+        .dashboard__theme-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .dashboard__sidebar {
+            grid-area: sidebar;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            padding: var(--space);
+        }
+        .dashboard__nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .dashboard__link {
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius);
+        }
+        .dashboard__link:hover {
+            background: var(--bg);
+            color: var(--accent);
+        }
+        .dashboard__main {
+            grid-area: main;
+            padding: var(--space);
+        }
+        .dashboard__metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space);
+        }
+        .metric-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: var(--space);
+        }
+        .metric-card__title {
+            margin: 0 0 0.5rem;
+            font-size: 0.95rem;
+        }
+        .metric-card__value {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        @media (max-width: 767px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "header"
+                    "sidebar"
+                    "main";
+            }
+            .dashboard__sidebar {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+            .dashboard__nav {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .dashboard__metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .dashboard__theme-btn { transition: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <header class="dashboard__header">
+            <div class="dashboard__logo">DashBoard</div>
+            <div class="dashboard__controls">
+                <input type="search" class="dashboard__search" placeholder="Search metrics..." aria-label="Search metrics">
+                <button type="button" class="dashboard__theme-btn" onclick="document.body.classList.toggle('dark')">Toggle Theme</button>
+                <span class="dashboard__profile">Sudheer</span>
+            </div>
+        </header>
+
+        <aside class="dashboard__sidebar">
+            <nav class="dashboard__nav">
+                <a href="#" class="dashboard__link">Overview</a>
+                <a href="#" class="dashboard__link">Analytics</a>
+                <a href="#" class="dashboard__link">Reports</a>
+                <a href="#" class="dashboard__link">Settings</a>
+            </nav>
+        </aside>
+
+        <main class="dashboard__main">
+            <section class="dashboard__metrics">
+                <article class="metric-card">
+                    <h2 class="metric-card__title">Active Users</h2>
+                    <p class="metric-card__value">1,240</p>
+                </article>
+                <article class="metric-card">
+                    <h2 class="metric-card__title">Labs Completed</h2>
+                    <p class="metric-card__value">18 / 20</p>
+                </article>
+                <article class="metric-card">
+                    <h2 class="metric-card__title">Average Score</h2>
+                    <p class="metric-card__value">91%</p>
+                </article>
+                <article class="metric-card">
+                    <h2 class="metric-card__title">Streak Days</h2>
+                    <p class="metric-card__value">14</p>
+                </article>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

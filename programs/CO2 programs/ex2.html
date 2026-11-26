@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 2 - Box Model</title>
+    <style>
+        /* Without border-box, width: 320px + padding (24px*2) + border (2px*2) = 372px.
+           With border-box, padding and border stay inside 320px. */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        .card {
+            width: 320px;
+            padding: 24px;
+            border: 2px solid #5b6b88;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>320px Card</h2>
+        <p>Total width stays 320px with border-box.</p>
+    </div>
+</body>
+</html>

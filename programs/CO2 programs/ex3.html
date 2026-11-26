@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 3 - Flexbox Toolbar</title>
+    <style>
+        * { box-sizing: border-box; }
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Try: center, flex-start, space-around */
+            gap: 1rem;
+            flex-wrap: wrap;
+            padding: 1rem;
+            background: #f4f6fa;
+        }
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <header class="toolbar">
+        <div class="logo">BrandLogo</div>
+        <div class="actions">
+            <button type="button">Home</button>
+            <button type="button">Courses</button>
+            <button type="button">Login</button>
+        </div>
+    </header>
+</body>
+</html>
