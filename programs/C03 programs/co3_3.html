@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JS - DOM, Events & Async (Full Runnable Demo)</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --surface: #0b1220;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #22c55e;
+      --accent-hover: #16a34a;
+      --danger: #ef4444;
+      --border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 2rem 1rem 4rem;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: 1.75rem;
+    }
+
+    section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.15rem 1.25rem;
+    }
+
+    h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1.15rem;
+    }
+
+    pre {
+      margin: 0 0 0.85rem;
+      padding: 0.75rem 0.9rem;
+      background: var(--surface);
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 0.875rem;
+      color: #e2e8f0;
+    }
+
+    button {
+      background: var(--accent);
+      color: #052e16;
+      border: none;
+      border-radius: 6px;
+      padding: 0.45rem 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: var(--accent-hover);
+    }
+
+    button.delete {
+      background: var(--danger);
+      color: #fff;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.8rem;
+      margin-left: 0.5rem;
+    }
+
+    ul {
+      margin: 0.5rem 0 0.75rem;
+      padding-left: 1.25rem;
+    }
+
+    li {
+      margin-bottom: 0.4rem;
+    }
+
+    .output {
+      margin-top: 0.65rem;
+      padding: 0.6rem 0.8rem;
+      background: var(--surface);
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.875rem;
+      color: #cbd5e1;
+      white-space: pre-wrap;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>JS - DOM, Events &amp; Async</h1>
+
+    <!-- 1. DOM -->
+    <section>
+      <h2>1. DOM</h2>
+      <pre><code>document.querySelector("#cart").textContent = "3 items";</code></pre>
+      <div class="row">
+        <span id="cart">0 items</span>
+        <button id="add-btn" type="button">Add</button>
+      </div>
+    </section>
+
+    <!-- 2. Events -->
+    <section>
+      <h2>2. Events</h2>
+      <pre><code>button.addEventListener("click", () =&gt; console.log("clicked"));</code></pre>
+      <button id="click-me" type="button">Click Me</button>
+      <div id="event-output" class="output">-</div>
+    </section>
+
+    <!-- 3. Delegation -->
+    <section>
+      <h2>3. Delegation</h2>
+      <pre><code>list.addEventListener("click", e =&gt; console.log(e.target));</code></pre>
+      <ul id="item-list">
+        <li>Item 1 <button class="delete" type="button">Delete</button></li>
+        <li>Item 2 <button class="delete" type="button">Delete</button></li>
+        <li>Item 3 <button class="delete" type="button">Delete</button></li>
+      </ul>
+      <div id="delegation-output" class="output">Click Delete</div>
+    </section>
+
+    <!-- 4. Event Loop -->
+    <section>
+      <h2>4. Event Loop</h2>
+      <pre><code>console.log("A");
+setTimeout(() =&gt; console.log("C"), 0);
+Promise.resolve().then(() =&gt; console.log("B"));
+// A -&gt; B -&gt; C</code></pre>
+      <button id="run-event-loop" type="button">Run</button>
+      <div id="event-loop-output" class="output">-</div>
+    </section>
+
+    <!-- 5. Callbacks -->
+    <section>
+      <h2>5. Callbacks</h2>
+      <pre><code>function greet(fn) { fn(); }
+greet(() =&gt; console.log("Hi"));</code></pre>
+      <button id="run-callback" type="button">Run</button>
+      <div id="callback-output" class="output">-</div>
+    </section>
+
+    <!-- 6. Promises -->
+    <section>
+      <h2>6. Promises</h2>
+      <pre><code>Promise.resolve("Ready").then(v =&gt; console.log(v));</code></pre>
+      <button id="run-promise" type="button">Run</button>
+      <div id="promise-output" class="output">-</div>
+    </section>
+
+    <!-- 7. Async / Await -->
+    <section>
+      <h2>7. Async / Await</h2>
+      <pre><code>async function load() {
+  let v = await Promise.resolve(5);
+  return v * 2;
+}</code></pre>
+      <button id="run-async-await" type="button">Run</button>
+      <div id="async-await-output" class="output">-</div>
+    </section>
+
+    <!-- 8. Fetch API -->
+    <section>
+      <h2>8. Fetch API</h2>
+      <pre><code>let res = await fetch("/api/orders");
+let data = await res.json();</code></pre>
+      <button id="fetch-user-btn" type="button">Fetch User</button>
+      <div id="fetch-output" class="output">-</div>
+    </section>
+  </main>
+
+  <script>
+    // 1. DOM
+    const cartEl = document.querySelector("#cart");
+    const addBtn = document.querySelector("#add-btn");
+    let itemCount = 0;
+
+    addBtn.addEventListener("click", () => {
+      itemCount += 1;
+      cartEl.textContent = `${itemCount} ${itemCount === 1 ? "item" : "items"}`;
+    });
+
+    // 2. Events
+    const clickMeBtn = document.querySelector("#click-me");
+    const eventOutput = document.querySelector("#event-output");
+
+    clickMeBtn.addEventListener("click", () => {
+      console.log("clicked");
+      eventOutput.textContent = `clicked at ${new Date().toLocaleTimeString()}`;
+    });
+
+    // 3. Delegation
+    const itemList = document.querySelector("#item-list");
+    const delegationOutput = document.querySelector("#delegation-output");
+
+    itemList.addEventListener("click", (e) => {
+      console.log(e.target);
+
+      if (e.target.matches("button.delete")) {
+        const li = e.target.closest("li");
+        const label = li ? li.firstChild.textContent.trim() : "Item";
+        li?.remove();
+        delegationOutput.textContent = `Deleted: ${label}`;
+      } else {
+        delegationOutput.textContent = `Clicked tag: <${e.target.tagName.toLowerCase()}>`;
+      }
+    });
+
+    // 4. Event Loop
+    const runEventLoopBtn = document.querySelector("#run-event-loop");
+    const eventLoopOutput = document.querySelector("#event-loop-output");
+
+    runEventLoopBtn.addEventListener("click", () => {
+      const order = [];
+
+      console.log("A");
+      order.push("A (sync)");
+
+      setTimeout(() => {
+        console.log("C");
+        order.push("C (macrotask)");
+        eventLoopOutput.textContent = order.join(" -> ");
+      }, 0);
+
+      Promise.resolve().then(() => {
+        console.log("B");
+        order.push("B (microtask)");
+        eventLoopOutput.textContent = order.join(" -> ");
+      });
+
+      eventLoopOutput.textContent = order.join(" -> ");
+    });
+
+    // 5. Callbacks
+    const runCallbackBtn = document.querySelector("#run-callback");
+    const callbackOutput = document.querySelector("#callback-output");
+
+    function greet(fn) {
+      fn();
+    }
+
+    runCallbackBtn.addEventListener("click", () => {
+      greet(() => {
+        console.log("Hi");
+        callbackOutput.textContent = "Hi";
+      });
+    });
+
+    // 6. Promises
+    const runPromiseBtn = document.querySelector("#run-promise");
+    const promiseOutput = document.querySelector("#promise-output");
+
+    runPromiseBtn.addEventListener("click", () => {
+      Promise.resolve("Ready").then((v) => {
+        console.log(v);
+        promiseOutput.textContent = v;
+      });
+    });
+
+    // 7. Async / Await
+    const runAsyncAwaitBtn = document.querySelector("#run-async-await");
+    const asyncAwaitOutput = document.querySelector("#async-await-output");
+
+    async function load() {
+      let v = await Promise.resolve(5);
+      return v * 2;
+    }
+
+    runAsyncAwaitBtn.addEventListener("click", async () => {
+      const result = await load();
+      console.log(result);
+      asyncAwaitOutput.textContent = `Result: ${result}`;
+    });
+
+    // 8. Fetch API
+    const fetchUserBtn = document.querySelector("#fetch-user-btn");
+    const fetchOutput = document.querySelector("#fetch-output");
+
+    async function fetchOrders() {
+      fetchOutput.textContent = "Loading...";
+      try {
+        const res = await fetch("/api/orders");
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status} (${res.statusText || "Request failed"})`);
+        }
+        const data = await res.json();
+        console.log(data);
+        fetchOutput.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        // Fallback mock payload when running offline or without a /api/orders backend
+        const mockData = {
+          user: "demo_user",
+          orders: [
+            { id: 101, item: "Mechanical Keyboard", total: 120 },
+            { id: 102, item: "USB-C Hub", total: 45 }
+          ],
+          note: `Real fetch error caught: ${err.message}`
+        };
+        console.warn("Using fallback mock response:", err);
+        fetchOutput.textContent = JSON.stringify(mockData, null, 2);
+      }
+    }
+
+    fetchUserBtn.addEventListener("click", fetchOrders);
+  </script>
+</body>
+</html>

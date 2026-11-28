@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ES6+ All Topics - Live Output</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 24px;
+      color: #1f2937;
+    }
+    h1 {
+      margin-top: 0;
+      color: #1e3a8a;
+    }
+    .card {
+      background: #ffffff;
+      border-left: 4px solid #1e3a8a;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+    .title {
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .expr {
+      font-family: monospace;
+      color: #4b5563;
+      margin-bottom: 4px;
+    }
+    .out {
+      font-family: monospace;
+      font-weight: bold;
+      color: #111827;
+    }
+  </style>
+</head>
+<body>
+  <h1>ES6+ All Topics - Live Output</h1>
+  <div id="output"></div>
+
+  <script>
+    const outputEl = document.getElementById("output");
+
+    function renderResult(title, expr, value) {
+      const formatted = Array.isArray(value)
+        ? `[${value.join(", ")}]`
+        : String(value);
+
+      console.log(`${title} ->`, value);
+
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="title">${title}</div>
+        <div class="expr">${expr}</div>
+        <div class="out">${formatted}</div>
+      `;
+      outputEl.appendChild(card);
+    }
+
+    // 1. Arrow Function
+    const double = (x) => x * 2;
+    renderResult("1. Arrow Function", "const double = x => x*2", `double(5) = ${double(5)}`);
+
+    // 2. Destructuring - Object
+    const user = { name: "Asha", marks: 90 };
+    const { name, marks } = user;
+    renderResult("2. Destructuring - Object", "const {name, marks} = user", `name = ${name}, marks = ${marks}`);
+
+    // 2b. Destructuring - Array
+    const scores = [82, 91, 76];
+    const [math, , science] = scores;
+    renderResult("2b. Destructuring - Array", "const [math, , science] = [82,91,76]", `math = ${math}, science = ${science} (91 skipped)`);
+
+    // 3. Spread ...
+    const a = [1, 2];
+    const b = [...a, 3];
+    renderResult("3. Spread ...", "const b = [...a, 3]", `b = [${b.join(",")}]`);
+
+    // 3b. Spread - Merge
+    const boys = ["Ram", "Sai"];
+    const girls = ["Asha", "Leela"];
+    const all = [...boys, ...girls];
+    renderResult("3b. Spread - Merge", "[...boys, ...girls]", `all = [${all.join(",")}]`);
+
+    // 4. Rest ...
+    function sum(...nums) {
+      return nums;
+    }
+    const restRes = sum(1, 2, 3);
+    renderResult("4. Rest ...", "function sum(...nums)", `sum(1,2,3) = [${restRes.join(",")}]`);
+
+    // 5. Template Literals
+    const sname = "Asha";
+    const year = 1;
+    const greeting = `Welcome ${sname}, you are in Year ${year}`;
+    renderResult("5. Template Literals", "`Welcome ${sname}`", `Output: ${greeting}`);
+
+    // 6. Modules (simulated inline; in separate files use export/import)
+    const avg = (...nums) =>
+      nums.length === 0 ? 0 : nums.reduce((acc, val) => acc + val, 0) / nums.length;
+    renderResult("6. Modules", "export function avg() in math.js / import in app.js", `avg(80,90) = ${avg(80, 90)}`);
+
+    // 7. Higher-Order Function
+    function greet(fn) {
+      return fn();
+    }
+    const callbackMsg = greet(() => "Hi from callback!");
+    renderResult("7. Higher-Order Function", "function greet(fn){ fn(); }", `Result: ${callbackMsg}`);
+
+    // 8. Array Methods
+    const mapped = [1, 2, 3].map((n) => n + 1);
+    const filtered = [10, 5, 20].filter((n) => n > 9);
+    const reduced = [80, 90, 70].reduce((acc, n) => acc + n, 0);
+    const found = [4, 8, 12].find((n) => n > 5);
+    renderResult(
+      "8. Array Methods",
+      "map / filter / reduce / find",
+      `map: [${mapped.join(",")}] | filter: [${filtered.join(",")}] | reduce: ${reduced} | find: ${found}`
+    );
+
+    // Final - Combined Example
+    const students = [{ name: "Leela", marks: [80, 80, 80] }];
+    const calculateAverage = (...marksList) => {
+      const flatMarks = marksList.flat();
+      return flatMarks.reduce((total, m) => total + m, 0) / flatMarks.length;
+    };
+    const [{ name: studentName, marks: leelaMarks }] = students;
+    const leelaAvg = calculateAverage(...leelaMarks);
+    renderResult("Final - Combined", "Leela marks average", `${studentName}: Average = ${leelaAvg}`);
+  </script>
+</body>
+</html>

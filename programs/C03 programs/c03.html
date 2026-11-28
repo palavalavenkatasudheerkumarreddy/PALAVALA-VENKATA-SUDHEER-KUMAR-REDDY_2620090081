@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JS Fundamentals - All in One</title>
+</head>
+<body>
+  <h2>JS Fundamentals - Open Console (F12) to see Output</h2>
+  <button id="runBtn" type="button">Run All Examples</button>
+  <div id="output"></div>
+
+  <script>
+    const outputEl = document.getElementById("output");
+    const runBtn = document.getElementById("runBtn");
+
+    function renderLines(lines) {
+      outputEl.innerHTML = lines
+        .map((line) => `<div>${line}</div>`)
+        .join("");
+    }
+
+    function runAllExamples() {
+      console.clear();
+      const lines = [];
+
+      // 1. Primitive types & typeof quirks
+      const strVal = "Hello";
+      const numVal = 42;
+      const boolVal = true;
+      let undefVal;
+      const nullVal = null;
+      const bigVal = 9007199254740991n;
+
+      const typeReport = [
+        typeof strVal,
+        typeof numVal,
+        typeof boolVal,
+        typeof undefVal,
+        typeof nullVal === "object" ? "object (bug!)" : typeof nullVal,
+        typeof bigVal,
+      ].join(", ");
+
+      console.log("Types:", typeReport);
+      lines.push(`Types: ${typeReport}`);
+
+      // 2. Object & Array basics
+      const student = { name: "Ravi", city: "Hyderabad" };
+      const marks = [70, 90, 80];
+      const objArrLine = `Object: ${student.name} | Array: ${marks[1]}`;
+      console.log(objArrLine);
+      lines.push(objArrLine);
+
+      // 3. var / let / const & Const Array Length
+      var varNum = 20;
+      let letNum = 10;
+      const constNum = 15;
+      const fixedScores = [80, 90, 70];
+      const varLetConstLine = `var/let/const: ${varNum}, ${letNum}, ${constNum} | Const Array Length: ${fixedScores.length}`;
+      console.log(varLetConstLine);
+      lines.push(varLetConstLine);
+
+      // 4. Dynamic Typing
+      let dynamicVal = "initial";
+      dynamicVal = 123;
+      dynamicVal = true;
+      const dynLine = "Dynamic Typing: pass";
+      console.log(dynLine, "-> final value:", dynamicVal);
+      lines.push(dynLine);
+
+      // 5. Functions: add, square, average
+      const add = (a, b) => a + b;
+      const square = (n) => n * n;
+      const average = (...nums) =>
+        nums.reduce((sum, n) => sum + n, 0) / nums.length;
+
+      const fnLine = `Functions: add(4,6)=${add(4, 6)} | square(5)=${square(5)} | average(80,90,70)=${average(80, 90, 70)}`;
+      console.log(fnLine);
+      lines.push(fnLine);
+
+      // 6. Scope & Shadowing
+      const cityScope = "Hyderabad";
+      let shadowValue = 8;
+      let innerShadowed = 3;
+      {
+        const innerShadowed = 99;
+        console.log("Inside block shadowed:", innerShadowed);
+      }
+      const scopeLine = `Scope: ${cityScope} | Shadowing: ${shadowValue} ${innerShadowed}`;
+      console.log(scopeLine);
+      lines.push(scopeLine);
+
+      // 7. Block Scope: var escapes, let/const do NOT
+      var leakedVar = 10;
+      let guardedLet = 50;
+      if (true) {
+        var leakedVar = 30;
+        let guardedLet = 100;
+        console.log("Inside block let:", guardedLet);
+      }
+      const blockLine = `Block: var escapes block = ${leakedVar}, let/const do NOT`;
+      console.log(blockLine);
+      lines.push(blockLine);
+
+      // 8. Closure Counter
+      function createCounter() {
+        let count = 0;
+        return function () {
+          count += 1;
+          return count;
+        };
+      }
+      const counter = createCounter();
+      const counts = [counter(), counter(), counter()].join(", ");
+      const counterLine = `Closure Counter: ${counts}`;
+      console.log(counterLine);
+      lines.push(counterLine);
+
+      // 9. Closure Wallet
+      function createWallet(startingBalance) {
+        let balance = startingBalance;
+        return {
+          deposit(amount) {
+            balance += amount;
+            return balance;
+          },
+          getBalance() {
+            return balance;
+          },
+        };
+      }
+      const wallet = createWallet(100);
+      wallet.deposit(50);
+      const walletLine = `Closure Wallet Balance: ${wallet.getBalance()}`;
+      console.log(walletLine);
+      lines.push(walletLine);
+
+      renderLines(lines);
+    }
+
+    runBtn.addEventListener("click", runAllExamples);
+    runAllExamples();
+  </script>
+</body>
+</html>

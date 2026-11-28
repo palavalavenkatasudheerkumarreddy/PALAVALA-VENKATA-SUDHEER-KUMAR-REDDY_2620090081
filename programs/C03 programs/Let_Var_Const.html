@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>var, let, and const — Redeclaration &amp; Mutation Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 0 16px;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+    h1 {
+      font-size: 1.4rem;
+      color: #1e3a8a;
+      margin-bottom: 20px;
+    }
+    .card {
+      background: #ffffff;
+      border-left: 4px solid #1d4ed8;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+    code {
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+    }
+    .ok {
+      color: #15803d;
+      font-weight: bold;
+    }
+    .err {
+      color: #b91c1c;
+      font-weight: bold;
+    }
+    .summary {
+      margin-top: 20px;
+      padding: 14px 18px;
+      background: #e2e8f0;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>var vs let vs const - Redeclaration Test</h1>
+  <div id="output"></div>
+
+  <script>
+    const results = [];
+    const logCase = (title, codeText, statusHtml, extraHtml = "") => {
+      results.push(`
+        <div class="card">
+          <div><strong>${title}</strong></div>
+          <div style="margin: 6px 0;"><code>${codeText}</code></div>
+          <div>${statusHtml}</div>
+          ${extraHtml ? `<div style="margin-top: 4px;">${extraHtml}</div>` : ""}
+        </div>
+      `);
+    };
+
+    // 1. var redeclaration in the same scope
+    var a = 10;
+    var a = 20;
+    console.log("1. var -> a =", a);
+    logCase("1. var", "var a = 10; var a = 20;", `Result: <span class="ok">a = ${a} - Redeclare OK</span>`);
+
+    // 2. let reassignment
+    let x = 5;
+    x = 10;
+    console.log("2. let update -> x =", x);
+    logCase("2. let - Update", "let x = 5; x = 10;", `Result: <span class="ok">x = ${x} - Update OK</span>`);
+
+    // 3. let redeclaration in the same scope (throws SyntaxError at parse time)
+    let letRedeclareResult;
+    try {
+      eval("let x = 5; let x = 20;");
+      letRedeclareResult = '<span class="ok">let Redeclare: OK</span>';
+    } catch (err) {
+      letRedeclareResult = `<span class="err">ERROR - ${err.name}: ${err.message}</span>`;
+    }
+    console.log("3. let redeclare in same scope ->", letRedeclareResult);
+    logCase("3. let - Redeclare (Same Scope)", "let x = 5; let x = 20;", `Result: ${letRedeclareResult}`);
+
+    // 4. const declaration
+    const y = 15;
+    console.log("4. const -> y =", y);
+    logCase("4. const", "const y = 15;", `Result: <span class="ok">y = ${y} - Fixed</span>`);
+
+    // 5. const redeclaration in the same scope (throws SyntaxError at parse time)
+    let constRedeclareResult;
+    try {
+      eval("const y = 15; const y = 25;");
+      constRedeclareResult = '<span class="ok">const Redeclare: OK</span>';
+    } catch (err) {
+      constRedeclareResult = `<span class="err">ERROR - ${err.name}: ${err.message}</span>`;
+    }
+    console.log("5. const redeclare in same scope ->", constRedeclareResult);
+    logCase("5. const - Redeclare (Same Scope)", "const y = 15; const y = 25;", `Result: ${constRedeclareResult}`);
+
+    // 6. const reassignment (throws TypeError at runtime)
+    let constUpdateResult;
+    try {
+      eval('"use strict"; const z = 15; z = 20;');
+    } catch (err) {
+      constUpdateResult = `<span class="err">ERROR - ${err.message}</span>`;
+    }
+    console.log("6. const update ->", constUpdateResult);
+    logCase("6. const - Update", "const y = 15; y = 20;", `Result: ${constUpdateResult}`);
+
+    // 7. const array mutation (reference stays fixed, elements can change)
+    const arr = [2, 4];
+    arr.push(6);
+    console.log("7. const Array -> arr =", arr, "| Length =", arr.length);
+    logCase(
+      "7. const Array",
+      "const arr = [2,4]; arr.push(6);",
+      `Result: <span class="ok">arr = [${arr.join(",")}] | Length = ${arr.length}</span>`,
+      "Reason: Address Fixed, Items Can Change"
+    );
+
+    // Final output summary
+    const finalText = `var/let/const: ${a}, ${x}, ${y} | Const Array Length: ${arr.length}`;
+    console.log("Final Output:", finalText);
+    results.push(`<div class="summary">Final Output:<br />${finalText}</div>`);
+
+    document.getElementById("output").innerHTML = results.join("");
+  </script>
+</body>
+</html>
